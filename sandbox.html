@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox Syanintika Safira</title>
+
+    <!-- CC Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+<body>
+    
+    <div class="container">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Tambah Buku</button>
+        <div id="listData" class="row"></div>
+
+        <!--
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Nama</label>
+            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Kategori</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+
+        
+        <div class="modal fade" id="exampleModal-edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="form-edit">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="name-edit">Name</label>
+                                <input id="name-edit" class="form-control" type="text" name="name" required>
+                                <input type="text" name="" id="id-edit" hidden readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="description-edit">Description</label>
+                                <input id="description-edit" class="form-control" type="text" name="description">
+                            </div>
+                            <div class="form-group">
+                                <label for="startDate-edit">Start Date</label>
+                                <input id="startDate-edit" class="form-control" type="date" name="startDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate-edit">End Date</label>
+                                <input id="endDate-edit" class="form-control" type="date" name="enDate">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> -->
+
+    </div>
+
+    <!-- JQUERY Full -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        const API = `http://mybook-order.herokuapp.com/books/`
+        axios.get(API).then(response => console.log(response)).catch(err => console.log(err))
+
+        const getListData = () => {
+            axios.get(API)
+            .then(response => {
+                let dataName = response.data.data
+                console.log(dataName)
+                let toHtml = ""
+                toHtml += `
+                <table class="table">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Kategori</th>
+                    <th scope="col">Aksi</th>
+                    </tr>
+                </thead>
+                </table>`
+                dataName.forEach(kelas => {
+                toHtml += `
+                <table class="table isi">
+                <tbody>
+                    <tr>
+                    <th scope="row">${kelas.type_books_id}</th>
+                    <td>${kelas.name}</td>
+                    <td>${kelas.type_book.name}</td>
+                    <td>TOLONG SAMBUNGIN</td>
+                    </tr>
+                </tbody>
+                </table>`
+                });
+                $(listData).html(toHtml)
+            })
+            .catch(err => console.log(err))
+        }
+        getListData()
+
+        // const showModalEdit = async (classId)
+        // try {
+        //     const dataGet = await axios.get(API + classId)
+        //     const dataLagi = dataGet.data.data
+        //     $("#name").val(name.id)
+        //     $("#typeBooksData").val(typeBooksData.id)
+        // } catch (err) {
+        //     console.log(err.message)
+        // }
+
+        // const confirmDelete = async (classId, name) => {
+        //     Swal.fire({
+        //         title: 'Are you sure?',
+        //         text: "Menghapus data" + name,
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //     }).then((result) => {
+        //         console.log(result)
+        //         if (result.isConfirmed) {
+        //             deleteClass(classId)
+        //         }
+        //     })
+        // }
+
+        // const deleteClass = async(classId)=>{
+        //     try{
+        //     const requestDelete = await axios.delete(API + "class/" + classId)
+        //     getListData() 
+        //     Swal.fire(
+        //             'Deleted!',
+        //             'Your file has been deleted.',
+        //             'success'
+        //         )
+        //     } catch (err){
+        //         console.log(err.message)
+        //     }
+        // }
+
+    </script>
+
+</body>
+</html>
